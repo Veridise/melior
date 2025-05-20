@@ -1,17 +1,16 @@
 use super::OperationPassManager;
 use crate::{
+    Error,
     context::Context,
-    ir::{operation::OperationPrintingFlags, Module},
+    ir::{Module, operation::OperationPrintingFlags},
     logical_result::LogicalResult,
     pass::Pass,
     string_ref::StringRef,
-    Error,
 };
 use mlir_sys::{
-    mlirPassManagerAddOwnedPass, mlirPassManagerCreate, mlirPassManagerDestroy,
+    MlirPassManager, mlirPassManagerAddOwnedPass, mlirPassManagerCreate, mlirPassManagerDestroy,
     mlirPassManagerEnableIRPrinting, mlirPassManagerEnableVerifier,
     mlirPassManagerGetAsOpPassManager, mlirPassManagerGetNestedUnder, mlirPassManagerRunOnOp,
-    MlirPassManager,
 };
 use std::{marker::PhantomData, mem::forget, path::PathBuf};
 
@@ -54,19 +53,8 @@ impl PassManager<'_> {
     /// The treePrintingPath argument is an optional path to a directory
     /// where the dumps will be produced. If it isn't provided then dumps
     /// are produced to stderr.
-    pub fn enable_ir_printing(&self, options: &PassIrPrintingOptions) {
-        unsafe {
-            mlirPassManagerEnableIRPrinting(
-                self.raw,
-                options.before_all,
-                options.after_all,
-                options.module_scope,
-                options.on_change,
-                options.on_failure,
-                options.flags.to_raw(),
-                StringRef::new(&options.tree_printing_path.display().to_string()).to_raw(),
-            )
-        }
+    pub fn enable_ir_printing(&self, _options: &PassIrPrintingOptions) {
+        unsafe { mlirPassManagerEnableIRPrinting(self.raw) }
     }
 
     /// Runs passes added to a pass manager against a module.
@@ -266,12 +254,14 @@ mod tests {
         let context = Context::new();
         let manager = PassManager::new(&context);
 
-        insta::assert_snapshot!(parse_pass_pipeline(
-            manager.as_operation_pass_manager(),
-            "builtin.module(func.func(print-op-stats{json=false}),\
+        insta::assert_snapshot!(
+            parse_pass_pipeline(
+                manager.as_operation_pass_manager(),
+                "builtin.module(func.func(print-op-stats{json=false}),\
                 func.func(print-op-stats{json=false}))"
-        )
-        .unwrap_err());
+            )
+            .unwrap_err()
+        );
 
         register_print_op_stats();
 

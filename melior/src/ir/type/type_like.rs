@@ -1,6 +1,6 @@
 use super::TypeId;
 use crate::{context::ContextRef, dialect::Dialect};
-use mlir_sys::{mlirTypeDump, mlirTypeGetContext, mlirTypeGetDialect, mlirTypeGetTypeID, MlirType};
+use mlir_sys::{MlirType, mlirTypeDump, mlirTypeGetContext, mlirTypeGetDialect, mlirTypeGetTypeID};
 
 /// A trait for type-like types.
 pub trait TypeLike<'c> {
@@ -36,22 +36,22 @@ pub trait TypeLike<'c> {
         mlirTypeIsAF16,
         mlirTypeIsAF32,
         mlirTypeIsAF64,
-        mlirTypeIsAFloat,
-        mlirTypeIsAFloat8E4M3,
+        //mlirTypeIsAFloat,
+        //mlirTypeIsAFloat8E4M3,
         mlirTypeIsAFloat8E4M3B11FNUZ,
         mlirTypeIsAFloat8E4M3FN,
         mlirTypeIsAFloat8E4M3FNUZ,
         mlirTypeIsAFloat8E5M2,
         mlirTypeIsAFloat8E5M2FNUZ,
         mlirTypeIsAFunction,
-        mlirTypeIsAGPUAsyncTokenType,
+        //mlirTypeIsAGPUAsyncTokenType,
         mlirTypeIsAIndex,
         mlirTypeIsAInteger,
-        mlirTypeIsALLVMPointerType,
-        mlirTypeIsALLVMStructType,
+        //mlirTypeIsALLVMPointerType,
+        //mlirTypeIsALLVMStructType,
         mlirTypeIsAMemRef,
         mlirTypeIsANone,
-        mlirTypeIsANVGPUTensorMapDescriptorType,
+        //mlirTypeIsANVGPUTensorMapDescriptorType,
         mlirTypeIsAOpaque,
         mlirTypeIsAPDLAttributeType,
         mlirTypeIsAPDLOperationType,
@@ -83,11 +83,11 @@ pub trait TypeLike<'c> {
 mod tests {
     use super::*;
     use crate::{
-        ir::{
-            r#type::{FunctionType, IntegerType},
-            Type,
-        },
         Context,
+        ir::{
+            Type,
+            r#type::{FunctionType, IntegerType},
+        },
     };
 
     #[test]

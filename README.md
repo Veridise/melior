@@ -9,6 +9,7 @@ safe, and complete API for MLIR with a reasonably sane ownership model
 represented by the type system in Rust.
 
 This crate is a wrapper of [the MLIR C API](https://mlir.llvm.org/docs/CAPI/).
+This fork modifies melior to target MLIR 18.
 
 ## Examples
 

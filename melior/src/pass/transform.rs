@@ -6,7 +6,7 @@ melior_macro::passes!(
         // spell-checker: disable-next-line
         mlirCreateTransformsCSE,
         mlirCreateTransformsCanonicalizer,
-        mlirCreateTransformsCompositeFixedPointPass,
+        //mlirCreateTransformsCompositeFixedPointPass,
         mlirCreateTransformsControlFlowSink,
         mlirCreateTransformsGenerateRuntimeVerification,
         mlirCreateTransformsInliner,
