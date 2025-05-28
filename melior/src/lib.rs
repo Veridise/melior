@@ -24,6 +24,7 @@ pub use self::{
     context::{Context, ContextRef},
     error::Error,
     execution_engine::ExecutionEngine,
+    logical_result::LogicalResult,
     string_ref::StringRef,
 };
 
