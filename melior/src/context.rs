@@ -5,12 +5,13 @@ use crate::{
     string_ref::StringRef,
 };
 use mlir_sys::{
-    mlirContextAppendDialectRegistry, mlirContextAttachDiagnosticHandler, mlirContextCreate,
-    mlirContextDestroy, mlirContextDetachDiagnosticHandler, mlirContextEnableMultithreading,
-    mlirContextEqual, mlirContextGetAllowUnregisteredDialects, mlirContextGetNumLoadedDialects,
+    MlirContext, MlirDiagnostic, MlirLogicalResult, mlirContextAppendDialectRegistry,
+    mlirContextAttachDiagnosticHandler, mlirContextCreate, mlirContextDestroy,
+    mlirContextDetachDiagnosticHandler, mlirContextEnableMultithreading, mlirContextEqual,
+    mlirContextGetAllowUnregisteredDialects, mlirContextGetNumLoadedDialects,
     mlirContextGetNumRegisteredDialects, mlirContextGetOrLoadDialect,
     mlirContextIsRegisteredOperation, mlirContextLoadAllAvailableDialects,
-    mlirContextSetAllowUnregisteredDialects, MlirContext, MlirDiagnostic, MlirLogicalResult,
+    mlirContextSetAllowUnregisteredDialects,
 };
 use std::{ffi::c_void, marker::PhantomData, mem::transmute};
 
@@ -146,6 +147,8 @@ impl<'a> PartialEq<ContextRef<'a>> for Context {
 }
 
 impl Eq for Context {}
+
+unsafe impl Send for Context {}
 
 /// A reference to a context.
 #[derive(Clone, Copy, Debug)]
